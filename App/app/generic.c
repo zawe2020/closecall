@@ -26,6 +26,10 @@
 #include "app/generic.h"
 #include "app/menu.h"
 
+#ifdef ENABLE_CLOSE_CALL
+#include "app/close_call.h"
+#endif
+
 #include "driver/keyboard.h"
 #include "external/printf/printf.h"
 #include "functions.h"
@@ -111,6 +115,14 @@ void GENERIC_Key_PTT(bool bKeyPressed)
     }
 
     // PTT pressed
+
+#ifdef ENABLE_CLOSE_CALL
+    // PTT opens Close Call instead of TX
+    APP_RunCloseCall();
+    gRequestDisplayScreen = DISPLAY_MAIN;
+    gPttDebounceCounter = 0;
+    return;
+#endif
 
 
 
